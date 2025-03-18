@@ -47,3 +47,15 @@ Apache Airflow's architecture consists of several key components:
 7. **Plugins**: Airflow supports plugins to extend its functionality. Plugins can be used to add custom operators, sensors, hooks, and more.
 
 These components work together to manage and execute workflows efficiently. A data engineer manages the configuration of the workflow and the environment (type of executor, metadata database in use etc.) from a config file or when the Airflow instance is spun up. The web server, scheduler, executor and workers are connected to the metadata database to push and pull data as required.
+
+## My setup
+
+I have an Airflow docker container running on a different computer/server. I write code on my laptop and then push the file to the dags/ folder which is mounted to /opt/airflow/dags on the container. Airflow then picks up the DAG a short while after it is pushed to the dags/ folder.
+
+TODO:
+
+1. Rerun the container and expose airflow.cfg to config/airflow.cfg and set min_file_process_interval and dag_dir_list_interval such that the files are picked up automatically. These are scheduler parameters that can also be set using export statements, but it mayu be a better idea to be able to tweak them even after the instance is up and running. Source: https://stackoverflow.com/questions/51558313/what-is-the-difference-between-min-file-process-interval-and-dag-dir-list-interv
+
+2. Set up some form of script or workflow that pushes the files to the specified folder as soon as they are saved and then Airflow can pick them up instantly.
+
+3. Get rid of sample DAGs that are preloaded for a cleaner web UI.
